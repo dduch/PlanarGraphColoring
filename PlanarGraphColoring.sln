@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanarGraphColoring", "Plan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColoringTests", "ColoringTests\ColoringTests.csproj", "{C3502AC2-D086-42BF-A189-E4A6A3C9D381}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTestDataParser", "GraphTestDataParser\GraphTestDataParser.csproj", "{3769E9C3-BDEC-411D-A854-6675528C8F15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C3502AC2-D086-42BF-A189-E4A6A3C9D381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3502AC2-D086-42BF-A189-E4A6A3C9D381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3502AC2-D086-42BF-A189-E4A6A3C9D381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3769E9C3-BDEC-411D-A854-6675528C8F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3769E9C3-BDEC-411D-A854-6675528C8F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3769E9C3-BDEC-411D-A854-6675528C8F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3769E9C3-BDEC-411D-A854-6675528C8F15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
