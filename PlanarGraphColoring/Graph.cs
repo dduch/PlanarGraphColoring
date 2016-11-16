@@ -6,10 +6,10 @@ namespace PlanarGraphColoring
 {
     public class Graph
     {
-        private Vertex[] _vs;
-        private Stack<Vertex> _s4; // Contains all remaining vertices with either degree at most 4
-        private Stack<Vertex> _s5; // Contains all remaining vertices that have degree 5 and at least one adjacent vertex with degree at most 6
-        private Stack<RemovedVertex> _sd; // Contains all vertices deleted from the graph so far, in the order that they were deleted
+        public Vertex[] _vs;
+        public Stack<Vertex> _s4; // Contains all remaining vertices with either degree at most 4
+        public Stack<Vertex> _s5; // Contains all remaining vertices that have degree 5 and at least one adjacent vertex with degree at most 6
+        public Stack<RemovedVertex> _sd; // Contains all vertices deleted from the graph so far, in the order that they were deleted
 
         public Graph(IEnumerable<IEnumerable<int>> ajdacencyLists)
         {

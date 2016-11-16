@@ -1,6 +1,6 @@
 ﻿namespace PlanarGraphColoring
 {
-    class RemovedVertex
+    public class RemovedVertex
     {
         public int Id { get; }
         public int MergedWith { get; }
@@ -19,6 +19,5 @@
             Neighbors = neighbors;
             MergedWith = mergedWith;
         }
-
     }
 }

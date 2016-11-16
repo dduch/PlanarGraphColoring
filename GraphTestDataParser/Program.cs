@@ -12,7 +12,7 @@ namespace GraphTestDataParser
         static void Main(string[] args)
         {
             DirectoryInfo d = new DirectoryInfo("GeneratedTestData");
-            FileInfo[] Files = d.GetFiles(); 
+            FileInfo[] Files = d.GetFiles();
             foreach (FileInfo file in Files)
             {
                 ParseFile(file.FullName, file.Name);
@@ -22,7 +22,8 @@ namespace GraphTestDataParser
         private static void ParseFile(string fullFileName, string fName)
         {
             var binData = File.ReadAllBytes(fullFileName);
-            System.IO.StreamWriter file = new System.IO.StreamWriter(@"ParsedTestData\out" + fName + ".txt");
+            int graphNumber = 1;
+            System.IO.StreamWriter file = new System.IO.StreamWriter(@"ParsedTestData\out" + fName + "-" + graphNumber + ".txt");
 
             string result = System.Text.Encoding.ASCII.GetString(binData);
             int maxlines = 1;
@@ -41,16 +42,28 @@ namespace GraphTestDataParser
                     StringBuilder sb = new StringBuilder();
                     while (binData[i] != 0)
                     {
-                        sb.Append(binData[i]);
+                        sb.Append(binData[i] - 1);
                         sb.Append(" ");
                         ++i;
                     }
+
                     file.WriteLine(sb.ToString());
                     ++j;
                 }
-            }
 
-            file.Close();
+                if (j == maxlines)
+                {
+                    j = 0;
+                    file.Close();
+                    ++graphNumber;
+
+                    if (i != binData.Length - 1)
+                    {
+                        file = new System.IO.StreamWriter(@"ParsedTestData\out" + fName + "-" + graphNumber + ".txt");
+                        ++i;
+                    }
+                }
+            }
         }
     }
 }

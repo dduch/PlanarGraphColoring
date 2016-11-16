@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PlanarGraphColoring
 {
-    class Vertex
+    public class Vertex
     {
         public int Id { get; }
         public int Degree
