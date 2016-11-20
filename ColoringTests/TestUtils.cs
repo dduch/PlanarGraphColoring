@@ -15,7 +15,6 @@ namespace ColoringTests
         {
             var g = new Graph(adjacencyLists);
             var coloring = g.ColorFive();
-            //SaveColouredGraph(coloring, file);
 
             for (var v = 0; v < adjacencyLists.Length; ++v)
             {

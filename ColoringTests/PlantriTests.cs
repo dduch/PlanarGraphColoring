@@ -37,7 +37,7 @@ namespace ColoringTests
 
 
         [TestMethod]
-        public void GraphsFrom2To8Vertices()
+        public void AllGraphsFrom2To8Vertices()
         {
             int verticesCount;
             string graphProps = "pm1c1";
@@ -46,7 +46,7 @@ namespace ColoringTests
         }
 
         [TestMethod]
-        public void GraphsWith9Vertices()
+        public void AllGraphsWith9Vertices()
         {
             int verticesCount = 9;
             string graphProps = "pm1c1";
@@ -54,7 +54,7 @@ namespace ColoringTests
         }
 
         [TestMethod]
-        public void GraphsMinDegree5From12To23Vertices()
+        public void AllGraphsFrom12To23VerticesAndMinDegree5()
         {
             int verticesCount;
             string graphProps = "pm5";
@@ -63,7 +63,7 @@ namespace ColoringTests
         }
 
         [TestMethod]
-        public void GraphsMinDegree5With24Vertices()
+        public void AllGraphsWith24VerticesAndMinDegree5()
         {
             int verticesCount = 24;
             string graphProps = "pm5";
@@ -72,7 +72,7 @@ namespace ColoringTests
 
         [TestMethod]
         //[Ignore] // Takes ~2 minutes to complete
-        public void GraphsMinDegree5With25Vertices()
+        public void AllGraphsWith25VerticesAndMinDegree5()
         {
             int verticesCount = 25;
             string graphProps = "pm5";
