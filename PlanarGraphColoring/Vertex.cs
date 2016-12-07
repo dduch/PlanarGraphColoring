@@ -16,13 +16,11 @@ namespace PlanarGraphColoring
         }
         public IEnumerable<Vertex> Neighbors { get; set; }
         public bool IsRemoved { get; private set; }
-        public bool ToBeRemoved { get; set; }
+        public bool ToBeRemoved { get; set; } // Marks vertices pushed on S4
 
         public Vertex(int id)
         {
             Id = id;
-            IsRemoved = false;
-            ToBeRemoved = false;
         }
 
         public bool IsAdjacentTo(Vertex v)

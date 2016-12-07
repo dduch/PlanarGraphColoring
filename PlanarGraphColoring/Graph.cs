@@ -38,26 +38,36 @@ namespace PlanarGraphColoring
 
             while(true)
             {
+                Vertex v, u, w;
                 // Next, as long as S4 is non-empty, we pop v from S4 and delete v from the graph, pushing it onto Sd, along with a list of its neighbors at this point in time. 
                 // We check each former neighbor of v, pushing it onto S4 or S5 if it now meets the necessary conditions.
                 while (_s4.Count > 0)
                 {
-                    var v = _s4.Pop();
+                    v = _s4.Pop();
                     _sd.Push(v.RemoveFromGraph());
                     PushOnStacksIfConditionsMet(v.Neighbors);
                 }
 
                 if (_sd.Count == _vs.Length)
-                    break; // All vertices were removed
+                    break; // All vertices were removed, graph is empty -> proceed to final step - coloring
 
-                Vertex v5;
+                // When S4 is empty our graph has minimum degree 5
+                // Wernicke's Theorem tells us that S5 is nonempty
+                // Pop v off S5
                 do
                 {
-                    v5 = _s5.Pop();
-                } while (v5.IsRemoved);
+                    v = _s5.Pop();
+                } while (v.IsRemoved); // Omit vertices previously removed from graph
 
-                var neighbors = v5.Neighbors.Take(4).ToList();
-                Vertex u, w;
+                var neighborsTmp = v.Neighbors.ToList();
+                var d6neighborIdx = neighborsTmp.FindIndex(x => x.Degree <= 6);
+                var neighbors = new Vertex[5];
+                for(var i = 0; i < 5; ++i)
+                {
+                    neighbors[i] = neighborsTmp[(i + d6neighborIdx) % 5];
+                }
+
+                // Find u and w - nonadjacent neighbors of v
                 if (neighbors[0].IsAdjacentTo(neighbors[2]))
                 {
                     u = neighbors[1];
@@ -69,13 +79,19 @@ namespace PlanarGraphColoring
                     w = neighbors[2];
                 }
 
-                var removedVertexes = u.MergeWithAndRemove(w, v5);
+                // Merge u and w into a single vertex. 
+                // To do this, we remove v from both circular adjacency lists, and then splice the two lists together into one list at the point where v was formerly found.
+                // It's possible that this might create faces bounded by two edges at the two points where the lists are spliced together; 
+                // we delete one edge from any such faces. After doing this, we push v and w onto Sd, along with a note that u is the vertex that w was merged with. 
+                var removedVertexes = u.MergeWithAndRemove(w, v);
                 _sd.Push(removedVertexes.Item1);
                 _sd.Push(removedVertexes.Item2);
 
-                PushOnStacksIfConditionsMet(v5.Neighbors.Where(x => x.Id != w.Id).Union(u.Neighbors));
+                // Any vertices affected by the merge are added or removed from the stacks as appropriate.
+                PushOnStacksIfConditionsMet(v.Neighbors.Where(x => x.Id != w.Id).Union(u.Neighbors));
             }
 
+            // At this point S4, S5, and the graph are empty. We can color the graph.
             return ColorRemoved();
         }
 
@@ -88,7 +104,7 @@ namespace PlanarGraphColoring
                     v.ToBeRemoved = true;
                     _s4.Push(v);
                 }
-                else if (v.Degree == 5)
+                else if (v.Degree == 5 && v.Neighbors.Any(n => n.Degree <= 6))
                     _s5.Push(v);
             }
         }
@@ -97,14 +113,20 @@ namespace PlanarGraphColoring
         {
             var coloring = new int[_vs.Length];
 
-            while(_sd.Count > 0)
+            while (_sd.Count > 0)
             {
+                // We pop vertices off Sd.
                 var v = _sd.Pop();
 
+                // If the vertex were merged with another vertex, 
+                // the vertex that it was merged with will already have been colored, and we assign it the same color.
+                // This is valid because we only merged vertices that were not adjacent in the original graph
                 if (v.IsMerged)
                 {
                     coloring[v.Id] = coloring[v.MergedWith];
                 }
+                // Otherwise vertex had degree 4 at the point of time of its removal
+                // and we can simply assign it a color none of its neighbors has
                 else
                 {
                     var colorsUsage = new bool[6]; // 1..5 for colors, 0 for not colored vertices
