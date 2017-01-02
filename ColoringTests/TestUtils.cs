@@ -9,12 +9,22 @@ using PlanarGraphColoring;
 
 namespace ColoringTests
 {
+    class ColoringMeta
+    {
+        public int Vertices;
+        public int Edges;
+        public long Microseconds;
+    }
+
     static class TestUtils
     {
-        public static void CheckColoring(int[][] adjacencyLists)
+        public static ColoringMeta CheckColoring(int[][] adjacencyLists)
         {
             var g = new Graph(adjacencyLists);
+
+            var watch = Stopwatch.StartNew();
             var coloring = g.ColorFive();
+            watch.Stop();
 
             for (var v = 0; v < adjacencyLists.Length; ++v)
             {
@@ -32,6 +42,8 @@ namespace ColoringTests
                         throw new ColoringException("Adjacent vertices <" + v + "> and <" + u + "> colored using the same color: " + coloring[v], adjacencyLists, coloring);
                 }
             }
+
+            return new ColoringMeta() { Vertices = g.VerticesCount, Edges = g.EdgesCount, Microseconds = 1000000 * watch.ElapsedTicks / Stopwatch.Frequency  };
         }
 
         // Generates file (if not exists) containing planar code encoded graphs with specified number of vertexes and properties
@@ -47,29 +59,6 @@ namespace ColoringTests
                 proc.WaitForExit();
             }
             return outfile;
-        }
-
-        public static LinkedList<int[][]> LoadGraphs(string filename)
-        {
-            var binData = File.ReadAllBytes(filename);
-            int verticesCount = (binData.Length > 15) ? binData[15] : -1;
-            var graphs = new LinkedList<int[][]>();
-
-            int i = 16 - 2;
-            while(++i < binData.Length)
-            {
-                var graph = new int[verticesCount][];
-                for (int j = 0; j < verticesCount; ++j)
-                {
-                    var neighbors = new List<int>();
-                    while (binData[++i] != 0)
-                        neighbors.Add(binData[i] - 1);
-                    graph[j] = neighbors.ToArray();
-                }
-                graphs.AddLast(graph);
-            }
-
-            return graphs;
         }
 
         public static string SaveColouredGraph(int[][] graph, int[] coloring, string filename, string message = "")

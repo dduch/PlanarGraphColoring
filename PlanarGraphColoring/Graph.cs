@@ -11,6 +11,9 @@ namespace PlanarGraphColoring
         public Stack<Vertex> _s5; // Contains all remaining vertices that have degree 5 and at least one adjacent vertex with degree at most 6
         public Stack<RemovedVertex> _sd; // Contains all vertices deleted from the graph so far, in the order that they were deleted
 
+        public int VerticesCount { get; private set; }
+        public int EdgesCount { get; private set; }
+
         public Graph(IEnumerable<IEnumerable<int>> ajdacencyLists)
         {
             var vCount = ajdacencyLists.Count();
@@ -25,6 +28,9 @@ namespace PlanarGraphColoring
             {
                 _vs[i++].Neighbors = adjList.Select(vid => _vs[vid]);
             }
+
+            VerticesCount = _vs.Length;
+            EdgesCount = _vs.Sum(v => v.Degree) / 2;
         }
 
         public int[] ColorFive()
