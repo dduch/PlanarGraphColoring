@@ -72,7 +72,6 @@ namespace ColoringTests
         }
 
         [TestMethod]
-        [Ignore]
         public void AllGraphsWith10Vertices()
         {
             int verticesCount = 10;
@@ -98,7 +97,6 @@ namespace ColoringTests
         }
 
         [TestMethod]
-        [Ignore]
         public void AllGraphsWith25VerticesAndMinDegree5()
         {
             int verticesCount = 25;

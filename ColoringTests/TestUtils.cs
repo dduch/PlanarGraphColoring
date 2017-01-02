@@ -76,32 +76,5 @@ namespace ColoringTests
             file.Close();
             return outfile;
         }
-
-        //private static int[][] LoadGraph(string fileName)
-        //{
-        //    System.IO.StreamReader file = new System.IO.StreamReader(fileName);
-        //    string line;
-        //    int vertexes = File.ReadLines(fileName).Count();
-        //    int[][] graph = new int[vertexes][];
-        //    int counter = 0;
-
-        //    while ((line = file.ReadLine()) != null)
-        //    {
-        //        if (line[line.Length - 1] == ' ')
-        //        {
-        //            line = line.Substring(0, line.Length - 1);
-        //        }
-        //        string[] neighbours = line.Split(' ');
-        //        graph[counter] = new int[neighbours.Length];
-
-        //        for (int i = 0; i < neighbours.Length; ++i)
-        //        {
-        //            graph[counter][i] = Convert.ToInt32(neighbours[i]);
-        //        }
-        //        ++counter;
-        //    }
-        //    file.Close();
-        //    return graph;
-        //}
     }
 }

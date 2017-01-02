@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanarGraphColoring;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,11 +12,37 @@ namespace GraphTestDataParser
     {
         static void Main(string[] args)
         {
+            RunColoring();
+        }
+
+        public void ParsePlantriOutput()
+        {
             DirectoryInfo d = new DirectoryInfo("GeneratedTestData");
             FileInfo[] Files = d.GetFiles();
             foreach (FileInfo file in Files)
             {
                 ParseFile(file.FullName, file.Name);
+            }
+        }
+
+        public static void RunColoring()
+        {
+            DirectoryInfo d = new DirectoryInfo("ParsedTestData");
+            FileInfo[] Files = d.GetFiles();
+            foreach (FileInfo file in Files)
+            {
+                int[][] graph = LoadGraph(file.FullName);
+                var g = new Graph(graph);
+                var coloring = g.ColorFive();
+
+                StringBuilder sb = new StringBuilder();
+
+                for(int i = 0; i < coloring.Length; ++i)
+                {
+                    sb.AppendLine((i + 1).ToString() + ": " + coloring[i]);
+                }
+                
+                System.IO.File.WriteAllText(@"Colored\" + file.Name, sb.ToString());
             }
         }
 
@@ -42,7 +69,7 @@ namespace GraphTestDataParser
                     StringBuilder sb = new StringBuilder();
                     while (binData[i] != 0)
                     {
-                        sb.Append(binData[i] - 1);
+                        sb.Append(binData[i]);
                         sb.Append(" ");
                         ++i;
                     }
@@ -64,6 +91,33 @@ namespace GraphTestDataParser
                     }
                 }
             }
+        }
+
+        private static int[][] LoadGraph(string fileName)
+        {
+            System.IO.StreamReader file = new System.IO.StreamReader(fileName);
+            string line;
+            int vertexes = File.ReadLines(fileName).Count();
+            int[][] graph = new int[vertexes][];
+            int counter = 0;
+
+            while ((line = file.ReadLine()) != null)
+            {
+                if (line[line.Length - 1] == ' ')
+                {
+                    line = line.Substring(0, line.Length - 1);
+                }
+                string[] neighbours = line.Split(' ');
+                graph[counter] = new int[neighbours.Length];
+
+                for (int i = 0; i < neighbours.Length; ++i)
+                {
+                    graph[counter][i] = Convert.ToInt32(neighbours[i]) -1;
+                }
+                ++counter;
+            }
+            file.Close();
+            return graph;
         }
     }
 }
