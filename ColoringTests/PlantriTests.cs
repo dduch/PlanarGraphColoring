@@ -41,7 +41,7 @@ namespace ColoringTests
             var coloringMetadataLines = coloringMetadata.Select((timeList, i) =>
             {
                 var count = timeList.Count;
-                var avg = (count != 0) ? (timeList.Sum() * 1000 / count) : 0;
+                var avg = (count != 0) ? (timeList.Sum() / count) : 0;
                 var max = (count != 0) ? timeList.Max() : 0;
                 var min = (count != 0) ? timeList.Min() : 0;
                 return i + "\t"  + count + "\t" + avg + "\t" + min + "\t" + max;
